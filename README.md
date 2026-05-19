@@ -70,13 +70,13 @@ monthly growth analysis, state performance comparison, and a complete business d
 
 ---
 
-##  Sample Output — Market Share Query
+## Sample Output — Complete Monthly Dashboard
 
-| customer_id | customer_state | ca_total | rang_dans_etat | ca_total_par_etat | part_de_marche |
-|-------------|---------------|----------|----------------|-------------------|----------------|
-| 711fff42... | AC            | 1251.70  | 1              | 19,680.62         | 6.36%          |
-| cd281c1a... | AC            | 995.18   | 2              | 19,680.62         | 5.06%          |
-| f23c4b53... | AC            | 905.93   | 3              | 19,680.62         | 4.60%          |
+| mois | ca | ca_precedent | taux_croissance | rang_dans_annee | ca_cumulatif | moyenne_3_mois |
+|------|----|--------------|-----------------|-----------------|--------------|----------------|
+| 2017-03 | 449,863.60 | 291,908.01 | 54.11% | 9 | 939,350.13 | 293,419.88 |
+| 2017-11 | 1,194,882.80 | 779,677.88 | 53.25% | 1 | 6,430,707.59 | 815,640.76 |
+| 2018-01 | 1,115,004.18 | 878,401.48 | 26.93% | 2 | 8,424,113.25 | 1,062,609.65 |
 
 ---
 
