@@ -1,7 +1,8 @@
 #  E-Commerce SQL Analysis
 
 Advanced SQL analysis on the Brazilian Olist e-commerce dataset,
-covering window functions, CTEs, customer ranking, and market share analysis.
+covering window functions, CTEs, customer ranking, market share analysis,
+revenue growth, and complete monthly dashboards.
 
 ---
 
@@ -9,8 +10,8 @@ covering window functions, CTEs, customer ranking, and market share analysis.
 
 This project explores customer purchasing behavior across Brazilian states
 using advanced SQL techniques. Starting from raw transactional data (100k+ orders),
-I built a series of queries to rank customers by revenue, compute state-level totals,
-and calculate each customer's market share within their state.
+I built a series of queries covering customer ranking, market share calculation,
+monthly growth analysis, state performance comparison, and a complete business dashboard.
 
 ---
 
@@ -38,14 +39,21 @@ and calculate each customer's market share within their state.
 | `01_window_functions.sql` | Customer ranking by revenue per state using RANK() |
 | `02_state_totals.sql` | Individual vs state-level revenue using SUM OVER() |
 | `03_market_share.sql` | Market share (%) per customer within their state |
+| `04_top_clients_par_mois.sql` | Top 3 customers per month using ROW_NUMBER() |
+| `05_croissance_mensuelle.sql` | Monthly revenue growth rate using LAG() |
+| `06_performance_par_etat.sql` | State revenue performance comparison 2017 vs 2018 |
+| `07_analyse_complete.sql` | Complete monthly dashboard: growth, rank, cumulative revenue, sliding average |
 
 ---
 
 ##  SQL Concepts Covered
 
-- **Window Functions** — RANK(), DENSE_RANK(), ROW_NUMBER(), SUM OVER()
+- **Window Functions** — RANK(), DENSE_RANK(), ROW_NUMBER(), SUM OVER(), AVG OVER(), LAG()
 - **PARTITION BY** — grouping without losing row-level detail
 - **Chained CTEs** — breaking complex queries into readable steps
+- **ROWS BETWEEN** — sliding window calculations (3-month average)
+- **CASE WHEN Pivot** — transforming rows into columns
+- **EXTRACT** — extracting year/month from timestamps
 - **Aggregate vs Window** — understanding when to use each
 
 ---
@@ -55,6 +63,10 @@ and calculate each customer's market share within their state.
 1. Who are the top customers by revenue in each Brazilian state?
 2. What is the total revenue generated per state?
 3. What percentage of a state's revenue does each customer represent?
+4. Who are the top 3 customers each month?
+5. Which months had the highest revenue growth vs the previous month?
+6. Which states grew the most between 2017 and 2018?
+7. What does a complete monthly performance dashboard look like?
 
 ---
 
@@ -74,8 +86,6 @@ and calculate each customer's market share within their state.
 2. Install [DBeaver](https://dbeaver.io) and create a DuckDB connection
 3. Load the CSV files using DuckDB :
 
----
-
 ```sql
 CREATE TABLE customers AS
 SELECT * FROM read_csv_auto('your_path/olist_customers_dataset.csv');
@@ -87,13 +97,14 @@ CREATE TABLE order_payments AS
 SELECT * FROM read_csv_auto('your_path/olist_order_payments_dataset.csv');
 ```
 
-4. Run the queries in order from `01_` to `03_`
+4. Run the queries in order from `01_` to `07_`
 
 ---
 
 ##  Author
-Patrick Camy
-Data Analyst Student | Polytech Clermont-Ferrand  
+
+**Patrick Camy**
+Data Analyst Student | Polytech Clermont-Ferrand
 3rd year — Mathematical Engineering & Data Science
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/patrick-c-5267b4265)
