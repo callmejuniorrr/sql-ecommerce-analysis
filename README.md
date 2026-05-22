@@ -1,21 +1,22 @@
-#  E-Commerce SQL Analysis
+# E-Commerce SQL Analysis
 
 Advanced SQL analysis on the Brazilian Olist e-commerce dataset,
-covering window functions, CTEs, customer ranking, market share analysis,
+covering window functions, CTEs, recursive queries, customer segmentation,
 revenue growth, and complete monthly dashboards.
 
 ---
 
-##  Project Overview
+## Project Overview
 
 This project explores customer purchasing behavior across Brazilian states
 using advanced SQL techniques. Starting from raw transactional data (100k+ orders),
 I built a series of queries covering customer ranking, market share calculation,
-monthly growth analysis, state performance comparison, and a complete business dashboard.
+monthly growth analysis, state performance comparison, recursive calendars,
+customer segmentation by revenue brackets, and cumulative growth tracking.
 
 ---
 
-##  Dataset
+## Dataset
 
 [Olist Brazilian E-Commerce Public Dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 
@@ -25,14 +26,14 @@ monthly growth analysis, state performance comparison, and a complete business d
 
 ---
 
-##  Tech Stack
+## Tech Stack
 
 ![SQL](https://img.shields.io/badge/SQL-DuckDB-FFF000?style=flat&logo=duckdb&logoColor=black)
 ![DBeaver](https://img.shields.io/badge/Tool-DBeaver-372923?style=flat)
 
 ---
 
-##  Queries
+## Queries
 
 | File | Description |
 |------|-------------|
@@ -42,23 +43,28 @@ monthly growth analysis, state performance comparison, and a complete business d
 | `04_top_clients_par_mois.sql` | Top 3 customers per month using ROW_NUMBER() |
 | `05_croissance_mensuelle.sql` | Monthly revenue growth rate using LAG() |
 | `06_performance_par_etat.sql` | State revenue performance comparison 2017 vs 2018 |
-| `07_analyse_complete.sql` | Complete monthly dashboard: growth, rank, cumulative revenue, sliding average |
+| `07_analyse_complete.sql` | Complete monthly dashboard: growth, rank, cumulative, sliding average |
+| `08_calendrier_recursif.sql` | Recursive calendar with complete monthly revenue and COALESCE |
+| `09_categories_niveaux.sql` | Customer segmentation by revenue brackets using recursive ranges |
+| `10_croissance_cumulee.sql` | Cumulative growth rate since first month using FIRST_VALUE |
 
 ---
 
-##  SQL Concepts Covered
+## SQL Concepts Covered
 
-- **Window Functions** — RANK(), DENSE_RANK(), ROW_NUMBER(), SUM OVER(), AVG OVER(), LAG()
+- **Window Functions** — RANK(), DENSE_RANK(), ROW_NUMBER(), SUM OVER(), AVG OVER(), LAG(), FIRST_VALUE()
 - **PARTITION BY** — grouping without losing row-level detail
 - **Chained CTEs** — breaking complex queries into readable steps
-- **ROWS BETWEEN** — sliding window calculations (3-month average)
+- **Recursive CTEs** — generating date series, numeric ranges, hierarchies
+- **ROWS BETWEEN** — sliding window calculations
 - **CASE WHEN Pivot** — transforming rows into columns
+- **LEFT JOIN on range** — joining on conditions instead of equality
+- **COALESCE** — replacing NULL values with defaults
 - **EXTRACT** — extracting year/month from timestamps
-- **Aggregate vs Window** — understanding when to use each
 
 ---
 
-##  Key Business Questions Answered
+## Key Business Questions Answered
 
 1. Who are the top customers by revenue in each Brazilian state?
 2. What is the total revenue generated per state?
@@ -67,20 +73,23 @@ monthly growth analysis, state performance comparison, and a complete business d
 5. Which months had the highest revenue growth vs the previous month?
 6. Which states grew the most between 2017 and 2018?
 7. What does a complete monthly performance dashboard look like?
+8. Which months had zero sales?
+9. How are customers distributed across revenue brackets?
+10. What is the cumulative growth since the first month?
 
 ---
 
-## Sample Output — Complete Monthly Dashboard
+## Sample Output — Cumulative Growth
 
-| mois | ca | ca_precedent | taux_croissance | rang_dans_annee | ca_cumulatif | moyenne_3_mois |
-|------|----|--------------|-----------------|-----------------|--------------|----------------|
-| 2017-03 | 449,863.60 | 291,908.01 | 54.11% | 9 | 939,350.13 | 293,419.88 |
-| 2017-11 | 1,194,882.80 | 779,677.88 | 53.25% | 1 | 6,430,707.59 | 815,640.76 |
-| 2018-01 | 1,115,004.18 | 878,401.48 | 26.93% | 2 | 8,424,113.25 | 1,062,609.65 |
+| mois | ca | ca_cumulatif | ca_premier_mois | croissance |
+|------|----|--------------|-----------------|------------|
+| 2016-09 | 252.24 | 252.24 | 252.24 | 0.00% |
+| 2016-10 | 59,090.48 | 59,342.72 | 252.24 | 23,426.17% |
+| 2017-11 | 1,194,882.80 | 6,430,707.59 | 252.24 | 2,549,262.45% |
 
 ---
 
-##  How to Run
+## How to Run
 
 1. Download the dataset from [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 2. Install [DBeaver](https://dbeaver.io) and create a DuckDB connection
@@ -97,11 +106,11 @@ CREATE TABLE order_payments AS
 SELECT * FROM read_csv_auto('your_path/olist_order_payments_dataset.csv');
 ```
 
-4. Run the queries in order from `01_` to `07_`
+4. Run the queries in order from `01_` to `10_`
 
 ---
 
-##  Author
+## Author
 
 **Patrick Camy**
 Data Analyst Student | Polytech Clermont-Ferrand
