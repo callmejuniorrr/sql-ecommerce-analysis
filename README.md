@@ -2,17 +2,19 @@
 
 Advanced SQL analysis on the Brazilian Olist e-commerce dataset,
 covering window functions, CTEs, recursive queries, customer segmentation,
-revenue growth, and complete monthly dashboards.
+cohort analysis, RFM segmentation, funnel analysis, anomaly detection,
+and complete monthly dashboards.
 
 ---
 
 ## Project Overview
 
-This project explores customer purchasing behavior across Brazilian states
-using advanced SQL techniques. Starting from raw transactional data (100k+ orders),
-I built a series of queries covering customer ranking, market share calculation,
-monthly growth analysis, state performance comparison, recursive calendars,
-customer segmentation by revenue brackets, and cumulative growth tracking.
+This project explores customer and seller behavior on the Olist Brazilian
+e-commerce platform using advanced SQL techniques. Starting from raw
+transactional data (100k+ orders), I built a series of queries covering
+customer ranking, market share, monthly growth, state performance,
+recursive calendars, seller cohorts, RFM segmentation, conversion funnels,
+and payment anomaly detection.
 
 ---
 
@@ -47,20 +49,32 @@ customer segmentation by revenue brackets, and cumulative growth tracking.
 | `08_calendrier_recursif.sql` | Recursive calendar with complete monthly revenue and COALESCE |
 | `09_categories_niveaux.sql` | Customer segmentation by revenue brackets using recursive ranges |
 | `10_croissance_cumulee.sql` | Cumulative growth rate since first month using FIRST_VALUE |
+| `11_cohortes.sql` | Seller cohort retention analysis using DATEDIFF |
+| `12_rfm.sql` | Seller RFM segmentation using NTILE(5) and CASE WHEN |
+| `13_funnel.sql` | Order conversion funnel: placed, approved, delivered, paid |
+| `14_anomalies.sql` | Payment anomaly detection using Z-score and IQR methods |
+
 
 ---
 
 ## SQL Concepts Covered
 
-- **Window Functions** — RANK(), DENSE_RANK(), ROW_NUMBER(), SUM OVER(), AVG OVER(), LAG(), FIRST_VALUE()
+- **Window Functions** — RANK(), DENSE_RANK(), ROW_NUMBER(), SUM OVER(), AVG OVER(), LAG(), FIRST_VALUE(), NTILE()
 - **PARTITION BY** — grouping without losing row-level detail
 - **Chained CTEs** — breaking complex queries into readable steps
 - **Recursive CTEs** — generating date series, numeric ranges, hierarchies
 - **ROWS BETWEEN** — sliding window calculations
 - **CASE WHEN Pivot** — transforming rows into columns
 - **LEFT JOIN on range** — joining on conditions instead of equality
-- **COALESCE** — replacing NULL values with defaults
-- **EXTRACT** — extracting year/month from timestamps
+- **COALESCE & NULLIF** — handling NULL values
+- **CROSS JOIN** — joining without a common key for global stats
+- **PERCENTILE_CONT** — computing quartiles for IQR method
+- **STDDEV** — standard deviation for Z-score anomaly detection
+- **Cohort Analysis** — tracking seller retention over time
+- **RFM Segmentation** — recency, frequency, monetary scoring
+- **Funnel Analysis** — conversion rates across order stages
+- **EXTRACT & DATE_TRUNC** — date manipulation
+
 
 ---
 
@@ -76,16 +90,26 @@ customer segmentation by revenue brackets, and cumulative growth tracking.
 8. Which months had zero sales?
 9. How are customers distributed across revenue brackets?
 10. What is the cumulative growth since the first month?
-
+11. How many sellers from each cohort are still active months later?
+12. Which sellers are Champions, Loyal, At-risk or New based on RFM?
+13. What is the conversion rate at each stage of the order funnel?
+14. Which payments are statistically anomalous?
 ---
 
-## Sample Output — Cumulative Growth
+## Sample Output — Market Share Query
 
-| mois | ca | ca_cumulatif | ca_premier_mois | croissance |
-|------|----|--------------|-----------------|------------|
-| 2016-09 | 252.24 | 252.24 | 252.24 | 0.00% |
-| 2016-10 | 59,090.48 | 59,342.72 | 252.24 | 23,426.17% |
-| 2017-11 | 1,194,882.80 | 6,430,707.59 | 252.24 | 2,549,262.45% |
+| customer_id | customer_state | ca_total | rang_dans_etat | ca_total_par_etat | part_de_marche |
+|-------------|---------------|----------|----------------|-------------------|----------------|
+| 711fff42... | AC            | 1251.70  | 1              | 19,680.62         | 6.36%          |
+| cd281c1a... | AC            | 995.18   | 2              | 19,680.62         | 5.06%          |
+| f23c4b53... | AC            | 905.93   | 3              | 19,680.62         | 4.60%          |
+
+## Sample Output — Payment Anomaly Detection
+
+| method | order_id | payment_value | score | seuil_haut |
+|--------|----------|---------------|-------|------------|
+| Z-score | 03caa2c0... | 13,664.08 | 62.12 | NULL |
+| IQR | 03caa2c0... | 13,664.08 | NULL | 409.75 |
 
 ---
 
