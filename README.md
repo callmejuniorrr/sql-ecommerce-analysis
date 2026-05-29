@@ -134,6 +134,13 @@ SELECT * FROM read_csv_auto('your_path/olist_order_payments_dataset.csv');
 
 ---
 
+## Related Project
+
+Interactive dashboard built on top of these SQL queries :
+[Olist E-Commerce Dashboard](https://olist-dashboard-ex2np7xznr8zqeba6n2fgp.streamlit.app/)
+
+---
+
 ## Author
 
 **Patrick Camy**
