@@ -145,7 +145,7 @@ Interactive dashboard built on top of these SQL queries :
 
 **Patrick Camy**
 Data Analyst Student | Polytech Clermont-Ferrand
-3rd year — Mathematical Engineering & Data Science
+4th year — Mathematical Engineering & Data Science
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/patrick-c-5267b4265)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=flat&logo=github)](https://github.com/callmejuniorrr)
